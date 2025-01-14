@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimelineJS Embed</Embed></title>
+
+    <!-- TimelineJS CSS -->
+    <link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+
+    <!-- Estilos personalizados -->
+    <style>
+        /* Modificar el contenedor principal del grupo de tiempo */
+        .tl-timegroup {
+            background-color: #f0f0f0 !important;
+            border-radius: 8px;
+            margin: 1px 0;
+            padding: 2px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo base para el mensaje o título del grupo */
+        .tl-timegroup-message {
+            font-weight: bold !important;
+            font-size: 16px !important;
+            padding: 2px 5px;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        /* Colores específicos para cada título */
+        .historia-general {
+            color: #780d0b !important;
+            background-color: #eecbcb !important;
+        }
+
+        .historia-mexico {
+            color: #4a8353 !important;
+            background-color: #E8F6E9 !important;
+        }
+
+        .historia-justicia {
+            color: #566DA5 !important;
+            background-color: #e1e4f7 !important;
+        }
+
+        .historia-corte {
+            color: #74097d !important;
+            background-color: #fad8f9 !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="timeline-embed" style="width: 100%; height: 650px;"></div>
+
+    <!-- TimelineJS Scripts -->
+    <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+
+    <script type="text/javascript">
+        var options = {
+            initial_zoom: 6,
+            timenav_position: 'top',
+            language: 'es',
+            font: 'Rufina-Sintony',
+            timenav_height: 165,
+            timenav_height_percentage: 25,
+            timenav_mobile_height_percentage: 40,
+            scale_factor: 2,
+        };
+        var spreadsheetId = '1DL2hPv3tCb6FRDPfVUGm8XxZm73dDERg3QxcCgmZrqo';
+        var dataUrl = 'https://docs.google.com/spreadsheets/d/' + spreadsheetId + '/pub?output=csv';
+
+        window.timeline = new TL.Timeline('timeline-embed', dataUrl, options);
+
+        // Función para asignar clases según el contenido
+        function asignarClases() {
+            const grupos = document.querySelectorAll('.tl-timegroup-message');
+            grupos.forEach(grupo => {
+                const texto = grupo.textContent.trim();
+                switch(texto) {
+                    case 'Historia General':
+                        grupo.classList.add('historia-general');
+                        break;
+                    case 'Historia de México':
+                        grupo.classList.add('historia-mexico');
+                        break;
+                    case 'Historia de la Justicia Mexicana':
+                        grupo.classList.add('historia-justicia');
+                        break;
+                    case 'Historia de la Suprema Corte':
+                        grupo.classList.add('historia-corte');
+                        break;
+                }
+            });
+        }
+
+        // Ejecutar después de que el timeline se haya cargado
+        window.timeline.on('loaded', function() {
+            setTimeout(asignarClases, 100);
+        });
+    </script>
+</body>
+</html>
